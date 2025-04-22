@@ -1,0 +1,418 @@
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.H.A.N.G.E Leaderboard - Habit Tracking Champions</title>
+<style>
+    :root {
+        --primary-color: #4ecdc4;
+        --secondary-color: #ff6b6b;
+        --bg-dark: #121212;
+        --bg-light: #1e1e1e;
+        --text-light: #e0e0e0;
+        --text-dark: #333;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+    .dashboard {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        min-height: 100vh;
+    }
+    .sidebar {
+        background-color: var(--bg-light);
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    .profile {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+    }
+    .user-name {
+        margin-top: 10px;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    .nav-links {
+        list-style-type: none;
+        padding: 0;
+    }
+    .nav-links li {
+        margin-bottom: 10px;
+    }
+    .nav-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+        background-color: rgba(78, 205, 196, 0.1);
+    }
+    .nav-links svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    .main-content {
+        padding: 30px;
+        overflow-y: auto;
+    }
+    h1, h2 {
+        color: var(--primary-color);
+    }
+    .leaderboard {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .leaderboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .leaderboard-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    #search-input {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 20px;
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        font-size: 14px;
+        width: 200px;
+    }
+    #search-input::placeholder {
+        color: var(--text-light);
+        opacity: 0.7;
+    }
+    .leaderboard-filter {
+        display: flex;
+        gap: 10px;
+    }
+    .filter-btn {
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .filter-btn.active {
+        background-color: var(--primary-color);
+        color: var(--text-dark);
+    }
+    .leaderboard-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+    .leaderboard-table th {
+        text-align: left;
+        padding: 10px;
+        color: var(--primary-color);
+    }
+    .leaderboard-table td {
+        background-color: var(--bg-light);
+        padding: 15px;
+    }
+    .leaderboard-table tr td:first-child {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .leaderboard-table tr td:last-child {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .rank {
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+    .streak, .points {
+        font-weight: bold;
+    }
+    .progress-bar {
+        width: 100%;
+        background-color: var(--bg-dark);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress {
+        height: 10px;
+        background-color: var(--primary-color);
+        border-radius: 10px;
+        transition: width 0.5s ease-in-out;
+    }
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    .badge-gold {
+        background-color: #ffd700;
+        color: var(--text-dark);
+    }
+    .badge-silver {
+        background-color: #c0c0c0;
+        color: var(--text-dark);
+    }
+    .badge-bronze {
+        background-color: #cd7f32;
+        color: var(--text-dark);
+    }
+</style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="sidebar">
+        <div class="profile">
+            <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="User profile photo" class="profile-photo">
+            <p class="user-name">John Doe</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="MAINPAGE.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                Dashboard
+            </a></li>
+            <li><a href="habits.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                Habits
+            </a></li>
+            <li><a href="community.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                Community
+            </a></li>
+            <li><a href="#" class="active">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                Leaderboard
+            </a></li>
+            <li><a href="setting.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                Settings
+            </a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="leaderboard">
+            <div class="leaderboard-header">
+                <h1>Leaderboard</h1>
+                <div class="leaderboard-actions">
+                    <input type="text" id="search-input" placeholder="Search users...">
+                    <div class="leaderboard-filter">
+                        <button class="filter-btn active" data-filter="all">All Time</button>
+                        <button class="filter-btn" data-filter="month">This Month</button>
+                        <button class="filter-btn" data-filter="week">This Week</button>
+                    </div>
+                </div>
+            </div>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Streak</th>
+                        <th>Points</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank">1</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="Sarah Lee" class="user-avatar">
+                                <span>Sarah Lee</span>
+                                <span class="badge badge-gold">Top Achiever</span>
+                            </div>
+                        </td>
+                        <td class="streak">45 days</td>
+                        <td class="points">2750</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">2</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="Mike Johnson" class="user-avatar">
+                                <span>Mike Johnson</span>
+                                <span class="badge badge-silver">Habit Master</span>
+                            </div>
+                        </td>
+                        <td class="streak">38 days</td>
+                        <td class="points">2540</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 88%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">3</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="Emily Chen" class="user-avatar">
+                                <span>Emily Chen</span>
+                                <span class="badge badge-bronze">Rising Star</span>
+                            </div>
+                        </td>
+                        <td class="streak">32 days</td>
+                        <td class="points">2310</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">4</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="Tom Brown" class="user-avatar">
+                                <span>Tom Brown</span>
+                            </div>
+                        </td>
+                        <td class="streak">28 days</td>
+                        <td class="points">2100</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 72%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">5</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="John Doe" class="user-avatar">
+                                <span>John Doe</span>
+                            </div>
+                        </td>
+                        <td class="streak">25 days</td>
+                        <td class="points">1950</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 67%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+    const searchInput = document.getElementById('search-input');
+    let currentFilter = 'all';
+    let currentData = [];
+
+    const leaderboardData = {
+        all: [
+            { rank: 1, name: 'Sarah Lee', avatar: 'user1.jpg', streak: '45 days', points: 2750, progress: 95, badge: { text: 'Top Achiever', class: 'badge-gold' } },
+            { rank: 2, name: 'Mike Johnson', avatar: 'user2.jpg', streak: '38 days', points: 2540, progress: 88, badge: { text: 'Habit Master', class: 'badge-silver' } },
+            { rank: 3, name: 'Emily Chen', avatar: 'user3.jpg', streak: '32 days', points: 2310, progress: 80, badge: { text: 'Rising Star', class: 'badge-bronze' } },
+            { rank: 4, name: 'Tom Brown', avatar: 'user4.jpg', streak: '28 days', points: 2100, progress: 72 },
+            { rank: 5, name: 'John Doe', avatar: 'profile-photo.jpg', streak: '25 days', points: 1950, progress: 67 }
+        ],
+        month: [
+            { rank: 1, name: 'Emily Chen', avatar: 'user3.jpg', streak: '30 days', points: 1800, progress: 90, badge: { text: 'Monthly Champion', class: 'badge-gold' } },
+            { rank: 2, name: 'Sarah Lee', avatar: 'user1.jpg', streak: '28 days', points: 1680, progress: 84 },
+            { rank: 3, name: 'John Doe', avatar: 'profile-photo.jpg', streak: '25 days', points: 1500, progress: 75, badge: { text: 'Consistent', class: 'badge-silver' } },
+            { rank: 4, name: 'Mike Johnson', avatar: 'user2.jpg', streak: '22 days', points: 1320, progress: 66 },
+            { rank: 5, name: 'Tom Brown', avatar: 'user4.jpg', streak: '20 days', points: 1200, progress: 60 }
+        ],
+        week: [
+            { rank: 1, name: 'John Doe', avatar: 'profile-photo.jpg', streak: '7 days', points: 420, progress: 100, badge: { text: 'Weekly Winner', class: 'badge-gold' } },
+            { rank: 2, name: 'Tom Brown', avatar: 'user4.jpg', streak: '7 days', points: 410, progress: 98 },
+            { rank: 3, name: 'Sarah Lee', avatar: 'user1.jpg', streak: '6 days', points: 360, progress: 86, badge: { text: 'Strong Finish', class: 'badge-silver' } },
+            { rank: 4, name: 'Mike Johnson', avatar: 'user2.jpg', streak: '5 days', points: 300, progress: 71 },
+            { rank: 5, name: 'Emily Chen', avatar: 'user3.jpg', streak: '5 days', points: 290, progress: 69 }
+        ]
+    };
+
+    function updateLeaderboard(filter, searchTerm = '') {
+        currentFilter = filter;
+        currentData = leaderboardData[filter];
+        const filteredData = currentData.filter(user => 
+            user.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        
+        leaderboardTable.innerHTML = '';
+        filteredData.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="rank">${user.rank}</td>
+                <td>
+                    <div class="user-info">
+                        <img src="https://change-habit-tracker.com/images/${user.avatar}" alt="${user.name}" class="user-avatar">
+                        <span>${user.name}</span>
+                        ${user.badge ? `<span class="badge ${user.badge.class}">${user.badge.text}</span>` : ''}
+                    </div>
+                </td>
+                <td class="streak">${user.streak}</td>
+                <td class="points">${user.points}</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${user.progress}%;"></div>
+                    </div>
+                </td>
+            `;
+            leaderboardTable.appendChild(row);
+        });
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            updateLeaderboard(this.dataset.filter, searchInput.value);
+        });
+    });
+
+    searchInput.addEventListener('input', function() {
+        updateLeaderboard(currentFilter, this.value);
+    });
+
+    updateLeaderboard('all');
+});
+</script>
+</body>
+</html>

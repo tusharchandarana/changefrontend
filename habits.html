@@ -1,0 +1,365 @@
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="habits.css">
+<title>C.H.A.N.G.E - Habits Tracker</title>
+
+</head>
+<body>
+<div class="dashboard">
+    <div class="sidebar">
+        <div class="profile">
+            <img src="C:\Users\Chandarana Tushar\Desktop\C.H\profile.jpg" alt="User profile photo" class="profile-photo">
+            <p class="user-name">John Doe</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="https://change-habit-tracker.com/dashboard">
+                <svg xmlns="MAINPAGE.html" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                Dashboard
+            </a></li>
+            <li><a href="#" class="active">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                Habits
+            </a></li>
+            <li><a href="community.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                Community
+            </a></li>
+            <li><a href="leaderboard.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                Leaderboard
+            </a></li>
+            <li><a href="setting.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                Settings
+            </a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>My Habits</h1>
+        <div class="habits-container">
+            <div class="habit-card">
+                <div class="habit-header">
+                    <span class="habit-title">Morning Meditation</span>
+                    <span class="habit-streak">Streak: 7 days</span>
+                </div>
+                <div class="habit-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="habit-actions">
+                    <button class="habit-btn check-in-btn">Check-in</button>
+                    <button class="habit-btn edit-btn">Edit</button>
+                </div>
+            </div>
+            <div class="habit-card">
+                <div class="habit-header">
+                    <span class="habit-title">Daily Exercise</span>
+                    <span class="habit-streak">Streak: 5 days</span>
+                </div>
+                <div class="habit-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 50%;"></div>
+                    </div>
+                </div>
+                <div class="habit-actions">
+                    <button class="habit-btn check-in-btn">Check-in</button>
+                    <button class="habit-btn edit-btn">Edit</button>
+                </div>
+            </div>
+            <div class="habit-card">
+                <div class="habit-header">
+                    <span class="habit-title">Read 30 Minutes</span>
+                    <span class="habit-streak">Streak: 12 days</span>
+                </div>
+                <div class="habit-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="habit-actions">
+                    <button class="habit-btn check-in-btn">Check-in</button>
+                    <button class="habit-btn edit-btn">Edit</button>
+                </div>
+            </div>
+            <div class="habit-card">
+                <div class="habit-header">
+                    <span class="habit-title">Drink Water</span>
+                    <span class="habit-streak">Streak: 3 days</span>
+                </div>
+                <div class="habit-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 30%;"></div>
+                    </div>
+                </div>
+                <div class="habit-actions">
+                    <button class="habit-btn check-in-btn">Check-in</button>
+                    <button class="habit-btn edit-btn">Edit</button>
+                </div>
+            </div>
+        </div>
+        <button class="add-habit-btn">+</button>
+    </div>
+</div>
+
+<div id="addHabitModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add New Habit</h2>
+        <form class="modal-form">
+            <label for="habit-name">Habit Name:</label>
+            <input type="text" id="habit-name" required>
+            
+            <label for="habit-frequency">Frequency:</label>
+            <select id="habit-frequency" required>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+            
+            <label for="habit-goal">Goal (e.g., number of times per day/week):</label>
+            <input type="number" id="habit-goal" min="1" required>
+            
+            <label for="habit-reminder">Set Reminder:</label>
+            <input type="time" id="habit-reminder">
+            
+            <button type="submit">Add Habit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addHabitBtn = document.querySelector('.add-habit-btn');
+        const modal = document.getElementById('addHabitModal');
+        const closeBtn = document.querySelector('.close');
+        const habitForm = document.querySelector('.modal-form');
+        
+        // Backend API URL
+        const API_URL = 'http://localhost:5000/api';
+        
+        // Check if user is logged in
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('authToken');
+        
+        if (!userId || !token) {
+            // Redirect to login page if not logged in
+            window.location.href = 'LOGIN.html';
+            return;
+        }
+        
+        // Auth header for API requests
+        const authHeader = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+        
+        // Load habits from backend when page loads
+        loadHabits();
+    
+        addHabitBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+    
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        habitForm.onsubmit = async function(e) {
+            e.preventDefault();
+            const habitName = document.getElementById('habit-name').value;
+            const habitFrequency = document.getElementById('habit-frequency').value;
+            const habitGoal = document.getElementById('habit-goal').value;
+            const habitReminder = document.getElementById('habit-reminder').value;
+    
+            // Create habit payload
+            const habitData = {
+                habit_name: habitName,
+                frequency: habitFrequency,
+                goal: parseInt(habitGoal),
+                reminder_time: habitReminder
+            };
+    
+            try {
+                // Send habit data to backend with auth token
+                const response = await fetch(`${API_URL}/habit/create`, {
+                    method: 'POST',
+                    headers: authHeader,
+                    body: JSON.stringify(habitData)
+                });
+                
+                const data = await response.json();
+                
+                // Handle invalid token
+                if (response.status === 401) {
+                    alert('Your session has expired. Please log in again.');
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem('authToken');
+                    window.location.href = 'LOGIN.html';
+                    return;
+                }
+                
+                if (response.ok) {
+                    console.log('Habit created successfully:', data);
+                    // Add the new habit to UI with its ID from the response
+                    addHabitCard(habitName, data.habit_id, 0);
+                    // Close modal and reset form
+                    modal.style.display = "none";
+                    habitForm.reset();
+                } else {
+                    console.error('Failed to create habit:', data.message);
+                    alert(`Failed to create habit: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error creating habit:', error);
+                alert('Error connecting to server. Please try again later.');
+            }
+        }
+    
+        // Function to load habits from backend
+        async function loadHabits() {
+            try {
+                // Fetch user's habits with auth token
+                const response = await fetch(`${API_URL}/habit/user`, {
+                    headers: authHeader
+                });
+                
+                // Handle invalid token
+                if (response.status === 401) {
+                    alert('Your session has expired. Please log in again.');
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem('authToken');
+                    window.location.href = 'LOGIN.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Clear existing habits
+                    const habitsContainer = document.querySelector('.habits-container');
+                    habitsContainer.innerHTML = '';
+                    
+                    // Add each habit to the UI
+                    data.habits.forEach(habit => {
+                        // Calculate streak (simplified)
+                        const streak = habit.check_ins ? habit.check_ins.length : 0;
+                        // Calculate progress percentage
+                        const progress = calculateProgress(habit);
+                        
+                        addHabitCard(habit.habit_name, habit._id, streak, progress);
+                    });
+                } else {
+                    console.error('Failed to load habits:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading habits:', error);
+            }
+        }
+    
+        // Helper function to calculate progress percentage
+        function calculateProgress(habit) {
+            if (!habit.check_ins || habit.check_ins.length === 0) return 0;
+            
+            // Simple calculation: (check-ins / goal) * 100
+            return Math.min(100, (habit.check_ins.length / habit.goal) * 100);
+        }
+    
+        function addHabitCard(habitName, habitId, streak = 0, progress = 0) {
+            const habitsContainer = document.querySelector('.habits-container');
+            const newHabitCard = document.createElement('div');
+            newHabitCard.className = 'habit-card';
+            newHabitCard.dataset.habitId = habitId; // Store habit ID as data attribute
+            newHabitCard.innerHTML = `
+                <div class="habit-header">
+                    <span class="habit-title">${habitName}</span>
+                    <span class="habit-streak">Streak: ${streak} days</span>
+                </div>
+                <div class="habit-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${progress}%;"></div>
+                    </div>
+                </div>
+                <div class="habit-actions">
+                    <button class="habit-btn check-in-btn">Check-in</button>
+                    <button class="habit-btn edit-btn">Edit</button>
+                </div>
+            `;
+            habitsContainer.appendChild(newHabitCard);
+        }
+    
+        // Handle check-ins and edits
+        document.querySelector('.habits-container').addEventListener('click', async function(e) {
+            if (e.target.classList.contains('check-in-btn')) {
+                const habitCard = e.target.closest('.habit-card');
+                const habitId = habitCard.dataset.habitId;
+                
+                try {
+                    // Send check-in request to backend with auth token
+                    const response = await fetch(`${API_URL}/habit/checkin/${habitId}`, {
+                        method: 'PATCH',
+                        headers: authHeader
+                    });
+                    
+                    // Handle invalid token
+                    if (response.status === 401) {
+                        alert('Your session has expired. Please log in again.');
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'LOGIN.html';
+                        return;
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        console.log('Check-in successful:', data);
+                        
+                        // Update the UI
+                        const progressBar = habitCard.querySelector('.progress');
+                        const currentWidth = parseInt(progressBar.style.width) || 0;
+                        progressBar.style.width = Math.min(currentWidth + 10, 100) + '%';
+                        
+                        // Update streak
+                        const streakElement = habitCard.querySelector('.habit-streak');
+                        const currentStreak = parseInt(streakElement.textContent.match(/\d+/)[0]);
+                        streakElement.textContent = `Streak: ${currentStreak + 1} days`;
+                        
+                    } else {
+                        console.error('Check-in failed:', data.message);
+                        alert(`Check-in failed: ${data.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error during check-in:', error);
+                    alert('Error connecting to server. Please try again later.');
+                }
+            } else if (e.target.classList.contains('edit-btn')) {
+                const habitCard = e.target.closest('.habit-card');
+                const habitId = habitCard.dataset.habitId;
+                alert(`Edit functionality would open an edit modal for habit ID: ${habitId}`);
+            }
+        });
+        
+        // Add logout functionality
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.className = 'logout-btn';
+        logoutBtn.onclick = function() {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('authToken');
+            window.location.href = 'LOGIN.html';
+        };
+        
+        // Add logout button to sidebar
+        document.querySelector('.sidebar').appendChild(logoutBtn);
+    });
+</script>
+</body>
+</html>

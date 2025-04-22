@@ -1,0 +1,151 @@
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="signup.css">
+<title>Sign Up for C.H.A.N.G.E - Start Your Habit Tracking Journey</title>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Join C.H.A.N.G.E</h1>
+        <form id="signupForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <div class="password-strength" id="passwordStrength"></div>
+            
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            
+            <button type="submit">Sign Up</button>
+        </form>
+        <p class="terms">By signing up, you agree to our <a href="https://change-habit-tracker.com/terms">Terms of Service</a> and <a href="https://change-habit-tracker.com/privacy">Privacy Policy</a>.</p>
+        <div class="login-link">
+            <p>Already have an account? <a href="LOGIN.html">Log in</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const form = document.getElementById('signupForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const passwordStrength = document.getElementById('passwordStrength');
+            
+            // API URL - update this to match your Flask server
+            const API_URL = 'http://localhost:5000/api';
+        
+            passwordInput.addEventListener('input', function() {
+                const strength = calculatePasswordStrength(this.value);
+                updatePasswordStrengthIndicator(strength);
+            });
+        
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (validateForm()) {
+                    try {
+                        // Get form data
+                        const username = document.getElementById('username').value;
+                        const email = document.getElementById('email').value;
+                        const password = passwordInput.value;
+                        
+                        // Send registration request to backend
+                        const response = await fetch(`${API_URL}/user/register`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ username, email, password })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            // Registration successful
+                            alert('Sign up successful! Welcome to C.H.A.N.G.E');
+                            
+                            // After successful registration, automatically log the user in
+                            await loginUser(email, password);
+                        } else {
+                            // Registration failed
+                            alert(`Registration failed: ${data.message}`);
+                        }
+                    } catch (error) {
+                        console.error('Error during registration:', error);
+                        alert('Error connecting to server. Please try again later.');
+                    }
+                }
+            });
+            
+            async function loginUser(email, password) {
+                try {
+                    const response = await fetch(`${API_URL}/user/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Store user ID and token in localStorage for future API calls
+                        localStorage.setItem('userId', data.user_id);
+                        localStorage.setItem('authToken', data.token); // You'll need to add token generation to your backend
+                        
+                        // Redirect to dashboard
+                        window.location.href = 'MAINPAGE.html';
+                    } else {
+                        // Auto-login failed, redirect to login page
+                        alert('Account created! Please log in.');
+                        window.location.href = 'LOGIN.html';
+                    }
+                } catch (error) {
+                    console.error('Error during auto-login:', error);
+                    // Redirect to login page even if auto-login fails
+                    window.location.href = 'LOGIN.html';
+                }
+            }
+        
+            function validateForm() {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+        
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return false;
+                }
+        
+                if (calculatePasswordStrength(password) < 2) {
+                    alert('Please choose a stronger password');
+                    return false;
+                }
+        
+                return true;
+            }
+        
+            function calculatePasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 8) strength++;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+                if (password.match(/\d/)) strength++;
+                if (password.match(/[^a-zA-Z\d]/)) strength++;
+                return strength;
+            }
+        
+            function updatePasswordStrengthIndicator(strength) {
+                const colors = ['#ff4d4d', '#ffa64d', '#ffff4d', '#4dff4d'];
+                const width = 25 * strength;
+                passwordStrength.style.width = `${width}%`;
+                passwordStrength.style.backgroundColor = colors[strength - 1] || '';
+            }
+        });
+    </script>
+</body>
+</html>

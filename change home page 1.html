@@ -1,0 +1,160 @@
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.H.A.N.G.E - Habit Tracking Application</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    header {
+        background-color: #1e1e1e;
+        padding: 20px 0;
+        text-align: center;
+    }
+    h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .tagline {
+        font-style: italic;
+        color: #bbb;
+    }
+    .features {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
+    .feature {
+        flex-basis: 30%;
+        background-color: #1e1e1e;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .feature:hover {
+        transform: translateY(-5px);
+    }
+    .feature h3 {
+        color: #4ecdc4;
+    }
+    .cta-button {
+        display: inline-block;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    footer {
+        text-align: center;
+        padding: 20px 0;
+        background-color: #1e1e1e;
+        margin-top: 40px;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>C.H.A.N.G.E</h1>
+            <p class="tagline">Cultivate Habits And Navigate Growth Effectively</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2>Transform Your Life, One Habit at a Time</h2>
+            <p>C.H.A.N.G.E is more than just a habit tracking application. It's your personal companion on the journey to becoming your best self. With our intuitive interface and powerful features, you'll be able to create, maintain, and master habits that lead to lasting personal growth.</p>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>Track Multiple Habits</h3>
+                <p>Monitor and manage various habits simultaneously, from daily exercises to learning new skills.</p>
+            </div>
+            <div class="feature">
+                <h3>Visual Progress</h3>
+                <p>Watch your progress unfold with beautiful, interactive charts and graphs.</p>
+            </div>
+            <div class="feature">
+                <h3>Customizable Reminders</h3>
+                <p>Set personalized notifications to keep you on track and motivated.</p>
+            </div>
+            <div class="feature">
+                <h3>Habit Streaks</h3>
+                <p>Build momentum and stay motivated by tracking your habit streaks.</p>
+            </div>
+            <div class="feature">
+                <h3>Insightful Analytics</h3>
+                <p>Gain deep insights into your behavior patterns and areas for improvement.</p>
+            </div>
+            <div class="feature">
+                <h3>Community Support</h3>
+                <p>Connect with like-minded individuals and share your journey to success.</p>
+            </div>
+        </section>
+
+        <section style="text-align: center;">
+            <h2>Ready to C.H.A.N.G.E Your Life?</h2>
+            <a href="LOGIN.html" class="cta-button">Get Started Now</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 C.H.A.N.G.E Habit Tracking App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const features = document.querySelectorAll('.feature');
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        features.forEach(feature => {
+            feature.style.opacity = 0;
+            feature.style.transform = 'translateY(20px)';
+            feature.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(feature);
+        });
+    });
+    </script>
+</body>
+</html>
