@@ -38,7 +38,8 @@
             const passwordStrength = document.getElementById('passwordStrength');
             
             // API URL - update this to match your Flask server
-            const API_URL = 'http://localhost:5000/api';
+            const API_URL = 'https://changebackend.onrender.com/api';
+
         
             passwordInput.addEventListener('input', function() {
                 const strength = calculatePasswordStrength(this.value);

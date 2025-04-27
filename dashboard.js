@@ -1,5 +1,6 @@
 // dashboard.js - Script to connect dashboard with backend API
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://changebackend.onrender.com/api';
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
