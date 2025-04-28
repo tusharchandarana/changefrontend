@@ -38,7 +38,7 @@
             const passwordStrength = document.getElementById('passwordStrength');
             
             // API URL - update this to match your Flask server
-            const API_URL = 'https://changebackend.onrender.com/api';
+            const API_URL = 'http://localhost:5000/api';
 
         
             passwordInput.addEventListener('input', function() {
@@ -101,7 +101,7 @@
                         localStorage.setItem('authToken', data.token); // You'll need to add token generation to your backend
                         
                         // Redirect to dashboard
-                        window.location.href = 'MAINPAGE.html';
+                        window.location.href = 'index.html';
                     } else {
                         // Auto-login failed, redirect to login page
                         alert('Account created! Please log in.');

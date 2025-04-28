@@ -1,6 +1,6 @@
 // dashboard.js - Script to connect dashboard with backend API
-const API_URL = 'https://changebackend.onrender.com/api';
-
+const API_URL = 'http://localhost:5000/api';
+// import { streak } from "./habittrack";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get user profile and habits
     fetchUserProfile();
     fetchUserHabits();
-    fetchCommunityUpdates();
-    fetchLeaderboard();
+    // fetchCommunityUpdates();
+    // fetchLeaderboard();
 
     // Setup logout functionality
     setupLogout();
@@ -26,6 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
     setupHabitCheckIn();
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    navLinks.forEach(link => {
+        link.addEventListener("click", function() {
+            navLinks.forEach(link => link.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+});
 // Fetch user profile information
 function fetchUserProfile() {
     fetch(`${API_URL}/user/profile`, {
@@ -74,37 +84,59 @@ function fetchUserHabits() {
         
         // Calculate total completed days for progress bar
         let completedDays = 0;
-        let totalGoal = 7; // Assuming weekly goal is 7 days
+        let totalGoal = 7; // Weekly goal is 7 days
         
-        // Add each habit to the list
-        data.habits.forEach(habit => {
-            // Create habit item
-            const habitItem = document.createElement('li');
-            habitItem.className = 'habit-item';
-            habitItem.dataset.habitId = habit._id;
-            
-            // Calculate streak
-            const streak = calculateStreak(habit.check_ins);
-            
-            // Add to completed days count for progress
-            if (new Date().toISOString().split('T')[0] in habit.check_ins) {
-                completedDays++;
-            }
-            
-            // Create habit name and streak elements
-            habitItem.innerHTML = `
-                <span class="habit-name">${habit.habit_name}</span>
-                <span class="streak">Streak: ${streak} days</span>
-            `;
-            
-            habitList.appendChild(habitItem);
-        });
+        if (data.habits && data.habits.length > 0) {
+            // Add each habit to the list
+            data.habits.forEach(habit => {
+                // Create habit item
+                const habitItem = document.createElement('li');
+                habitItem.className = 'habit-item';
+                habitItem.dataset.habitId = habit._id;
+                
+                // Make it look clickable with cursor style
+                habitItem.style.cursor = 'pointer';
+                
+                // Calculate streak
+                const streak = calculateStreak(habit.check_ins);
+                
+                // Add to completed days count for progress if checked in today
+                const today = new Date().toISOString().split('T')[0];
+                if (habit.check_ins && habit.check_ins.includes(today)) {
+                    completedDays++;
+                }
+                
+                // Create habit name and streak elements
+                habitItem.innerHTML = `
+                    <span class="habit-name">${habit.habit_name}</span>
+                    <span class="streak">Streak: ${streak} days</span>
+                `;
+                
+                // Add click event to navigate to calendar with habit ID
+                habitItem.addEventListener('click', function() {
+                    // Store the selected habit ID in localStorage
+                    localStorage.setItem('selectedHabitId', habit._id);
+                    // Navigate to the calendar page
+                    window.location.href = 'habittrack.html';
+                });
+                
+                habitList.appendChild(habitItem);
+            });
+        } else {
+            // No habits found
+            const noHabitsMessage = document.createElement('li');
+            noHabitsMessage.className = 'habit-item';
+            noHabitsMessage.textContent = 'No habits found. Add a new habit to get started!';
+            habitList.appendChild(noHabitsMessage);
+        }
         
-        // Update progress bar
+        // Update progress bar with completed days
         updateProgressBar(completedDays, totalGoal);
     })
     .catch(error => {
         console.error('Error fetching habits:', error);
+        const habitList = document.querySelector('.habit-list');
+        habitList.innerHTML = '<li class="habit-item">Error loading habits. Please try again.</li>';
     });
 }
 
@@ -112,31 +144,47 @@ function fetchUserHabits() {
 function calculateStreak(checkIns) {
     if (!checkIns || checkIns.length === 0) return 0;
     
-    // Sort check-ins by date
-    const sortedDates = [...checkIns].sort();
+    // Convert check-ins to Date objects for comparison
+    const dates = checkIns.map(date => new Date(date));
+    dates.sort((a, b) => a - b); // Sort dates chronologically
     
-    // Get today's date
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    // Get today and yesterday as Date objects
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     
-    // Check if user checked in today or yesterday (streak is still valid)
-    const lastCheckIn = sortedDates[sortedDates.length - 1];
-    if (lastCheckIn !== today && lastCheckIn !== yesterday) {
-        return 0; // Streak broken
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    // Format for comparison
+    const todayStr = today.toISOString().split('T')[0];
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    
+    // Check if last check-in was today or yesterday
+    const lastCheckIn = new Date(dates[dates.length - 1]);
+    const lastCheckInStr = lastCheckIn.toISOString().split('T')[0];
+    
+    if (lastCheckInStr !== todayStr && lastCheckInStr !== yesterdayStr) {
+        return 0; // Streak broken if not checked in today or yesterday
     }
     
     // Count consecutive days
     let streak = 1;
-    for (let i = sortedDates.length - 2; i >= 0; i--) {
-        const currentDate = new Date(sortedDates[i]);
-        const nextDate = new Date(sortedDates[i + 1]);
+    let currentDate = new Date(dates[dates.length - 1]);
+    
+    for (let i = dates.length - 2; i >= 0; i--) {
+        const prevDate = new Date(dates[i]);
         
-        // Check if dates are consecutive
-        const diffTime = Math.abs(nextDate - currentDate);
+        // Set times to midnight for proper day comparison
+        currentDate.setHours(0, 0, 0, 0);
+        prevDate.setHours(0, 0, 0, 0);
+        
+        // Calculate difference in days
+        const diffTime = Math.abs(currentDate - prevDate);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
         if (diffDays === 1) {
             streak++;
+            currentDate = prevDate;
         } else {
             break; // Streak broken
         }
@@ -144,14 +192,30 @@ function calculateStreak(checkIns) {
     
     return streak;
 }
-
 // Update progress bar with completed/total days
 function updateProgressBar(completed, total) {
-    const progressPercentage = (completed / total) * 100;
-    document.querySelector('.progress').style.width = `${progressPercentage}%`;
-    document.querySelector('p').textContent = `Weekly Goal: ${completed}/${total} days`;
+    const progressPercentage = Math.min((completed / total) * 100, 100); // Cap at 100%
+    const progressBar = document.querySelector('.progress');
+    
+    if (progressBar) {
+        progressBar.style.width = `${progressPercentage}%`;
+        
+        // Change color based on progress
+        if (progressPercentage < 30) {
+            progressBar.style.backgroundColor = '#FF6B6B'; // Red for low progress
+        } else if (progressPercentage < 70) {
+            progressBar.style.backgroundColor = '#FFD166'; // Yellow for medium progress
+        } else {
+            progressBar.style.backgroundColor = '#06D6A0'; // Green for good progress
+        }
+    }
+    
+    // Update text
+    const progressText = document.querySelector('.dashboard-card p');
+    if (progressText) {
+        progressText.textContent = `Weekly Goal: ${completed}/${total} days`;
+    }
 }
-
 // Fetch community updates
 function fetchCommunityUpdates() {
     fetch(`${API_URL}/community/updates`, {

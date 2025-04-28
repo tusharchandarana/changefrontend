@@ -169,3 +169,16 @@
         margin-right: 10px;
         color: var(--primary-color);
     }
+    .logout-btn {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+    .logout-btn:hover {
+        background-color: #e35555;
+    }
