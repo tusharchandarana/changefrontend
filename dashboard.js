@@ -100,9 +100,9 @@ function fetchUserHabits() {
                 // Calculate streak
                 const streak = calculateStreak(habit.check_ins);
                 
-                // Add to completed days count for progress if checked in today
-                const today = new Date().toISOString().split('T')[0];
-                if (habit.check_ins && habit.check_ins.includes(today)) {
+                // Add to completed days count for progress if has a streak
+                // This assumes each streak represents a completed habit for the week
+                if (streak > 0) {
                     completedDays++;
                 }
                 
@@ -129,6 +129,8 @@ function fetchUserHabits() {
             noHabitsMessage.textContent = 'No habits found. Add a new habit to get started!';
             habitList.appendChild(noHabitsMessage);
         }
+        
+        console.log('Completed days count:', completedDays);
         
         // Update progress bar with completed days
         updateProgressBar(completedDays, totalGoal);
@@ -208,12 +210,19 @@ function updateProgressBar(completed, total) {
         } else {
             progressBar.style.backgroundColor = '#06D6A0'; // Green for good progress
         }
+        
+        // Log the progress to verify it's working
+        console.log(`Progress updated: ${completed}/${total} days (${progressPercentage}%)`);
+    } else {
+        console.error('Progress bar element not found');
     }
     
     // Update text
     const progressText = document.querySelector('.dashboard-card p');
     if (progressText) {
         progressText.textContent = `Weekly Goal: ${completed}/${total} days`;
+    } else {
+        console.error('Progress text element not found');
     }
 }
 // Fetch community updates

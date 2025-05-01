@@ -108,7 +108,7 @@
         
         // Load user's habits
         function loadHabits() {
-            fetch(`${API_URL}/habit/user`, {
+            fetch(`${API_URL}/habits/user`, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -163,7 +163,7 @@
             currentDateElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
             
             // Fetch calendar data for the selected month and habit
-            fetch(`${API_URL}/habit/month/${selectedHabitId}/${currentYear}/${currentMonth + 1}`, {
+            fetch(`${API_URL}/habits/month/${selectedHabitId}/${currentYear}/${currentMonth + 1}`, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }

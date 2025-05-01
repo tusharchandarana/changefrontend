@@ -196,7 +196,7 @@
     
             try {
                 // Send habit data to backend with auth token
-                const response = await fetch(`${API_URL}/habit/create`, {
+                const response = await fetch(`${API_URL}/habits/create`, {
                     method: 'POST',
                     headers: authHeader,
                     body: JSON.stringify(habitData)
@@ -350,7 +350,7 @@
                 
                 try {
                     // Send check-in request to backend with auth token
-                    const response = await fetch(`${API_URL}/habit/checkin/${habitId}`, {
+                    const response = await fetch(`${API_URL}/habits/checkin/${habitId}`, {
                         method: 'PATCH',
                         headers: authHeader
                     });
